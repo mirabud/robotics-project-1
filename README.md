@@ -33,7 +33,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#Participants">Contact</a></li>
   </ol>
 </details>
 
@@ -42,14 +42,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-In this project, we aim to develop a computer vision system to estimate the number of people present on a beach, a task commonly known as "crowd counting." Lifeguards typically monitor beaches during summer, gathering data on occupancy, sea conditions, wind, and more. By applying image processing techniques, we can automate the counting of beachgoers, reducing manual efforts and improving monitoring accuracy. This project will encompass all key stages of an image processing workflow, including data annotation, algorithm design and implementation, and result validation.
+In this project,....
 
 
 
 
 ### Built With
 * [![Python 3][Python-badge]][Python-url]
-* [![OpenCV][OpenCV-badge]][OpenCV-url]
+* [![ROS 2][ROS2-badge]][ROS2-url]
+* [![TurtleBot3][TurtleBot3-badge]][TurtleBot3-url]
+* [![Gazebo Ignition][Gazebo-badge]][Gazebo-url]
 
 
 
@@ -59,54 +61,148 @@ In this project, we aim to develop a computer vision system to estimate the numb
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+These are the instructions on setting up this project locally. To get a local copy up and running follow these steps:
 
 ### Prerequisites
 
-First we have to set up a conda environment with all the necessary packages:
+Use Ubuntu 22.04
 
-* Install conda environment with all requirements
-  ```sh
-    conda create --name Project1 --file requirements.txt
+- Install ROS Humble (more information: [Install ROS Humble on Ubuntu](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html))
+  
+    ```bash
+    # Install dependencies
+    sudo apt install software-properties-common
+    sudo add-apt-repository universe
+    sudo apt update && sudo apt install curl -y
+    
+    # Add ROS 2 repository and key
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+    
+    # Update apt repository and upgrade packages
+    sudo apt update
+    sudo apt upgrade
+    
+    # Install ROS Humble Desktop
+    sudo apt install ros-humble-desktop
+    ```
+    
+  Add ROS installation to your bash file:
+  ```bash
+  # Open bashrc file
+  gedit ~/.bashrc
   ```
-* If necessary install this version with pip inside the conda env
-  ```sh
-    pip install opencv-contrib-python==4.5.5.64
+  
+  Add the following line at the end of the file
+  ```bash
+  source /opt/ros/humble/setup.bash
   ```
-* Activate conda environment
-  ```sh
-    conda activate Project1
+  
+  Restart your terminal.
+    
+- Install Navigation2 and Turtlebot3 packages:
+    ```bash
+    # Install Navigation2 package
+    sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup
+    
+    # Install Turtlebot3 package
+    sudo apt install ros-humble-turtlebot3*
+    ```
+    
+- Install Gazebo Ignition:
+    ```bash
+    # Get Gazebo key
+    sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+    
+    # Install Gazebo
+    sudo apt-get update
+    sudo apt-get install gz-ionic
+
+    # Install ROS Ignition Bridge for Gazebo Integration
+    sudo apt install ros-humble-ros-ign-gazebo
+    sudo apt install ros-humble-ign-bridge
+    ```
+- Install more necessary packages:
+  ```bash
+  # Install necessary packages
+  sudo apt install ros-humble-xacro
+  sudo apt install python3-colcon-common-extensions
+  sudo apt install python3-rosdep2
+  ```
+  Initialize rosdep and update
+  ```bash
+  sudo rosdep init
+  rosdep update
   ```
 
-### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
+
+### Installation waiter robot
+
+1. Create ROS workspace folder if it doesn't exist yet
+    ```bash
+    # Create workspace folder with src folder
+    mkdir ros2_ws/src
+    # Navigate to src folder
+    cd ros2_ws/src
+     ```
 2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
+   ```bash
+   git clone [https://github.com/github_username/repo_name.git](https://github.com/mirabud/robotics-project-1.git)
    ```
-3. Install NPM packages
-   ```sh
-   npm install
+3. Go into the ros2_ws folder and update Ros dependencies
+   ```bash
+   # update dependencies
+   rosdep update
+   
+   # install dependencies
+   rosdep install –from-paths src –ignore-src -r -y
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+5. Build the project
+   ```bash
+   colcon build –symlink-install
    ```
-5. Change git remote url to avoid accidental pushes to base project
-   ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
+6. Source the package install.bash file
+   ```bash
+   # Open bashrc file
+   gedit ~/.bashrc
    ```
+  
+   Add the following line at the end of the file
+   ```bash
+   source ~/ros2_ws/install/setup.bash
+   ```
+   Restart your terminal.
 
 
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+* For restaurant environment:
+  ```bash
+   ros2 launch turtlebot3 restaurant.launch.py
+   ```
+    ### Controlling the robot
+  1. Using keyboard: 
+  
+     Open a new terminal and start the teleop module from the turtlebot3 package
+     ```bash
+       ros2 run turtlebot3_teleop teleop_keyboard
+     ```
+  3. Move to a point:
+     
+     In RViz you can set navigation goals by clicking on `Nav2 Goal` and select an arbitrary point on the map.
+  5. Waypoint Following:
+  
+     In RViz you can click on `Waypoint / Nav Through Poses Mode`. Set multiple `Nav2 Goals` like in ii. and then click on `Start Waypoint Following`
+  
+* For default environment (SLAM works here):
+   ```bash
+   ros2 launch turtlebot3 simulation.launch.py
+   ```
+  
 
 
 
@@ -114,11 +210,16 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[OpenCV-badge]: https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white
-[OpenCV-url]: https://opencv.org/
+[ROS2-badge]: https://img.shields.io/badge/ROS%202-5A1B28?style=for-the-badge&logo=ros&logoColor=white
+[ROS2-url]: https://index.ros.org/doc/ros2/
+[TurtleBot3-badge]: https://img.shields.io/badge/TurtleBot3-009CDE?style=for-the-badge&logo=turtlebot3&logoColor=white
+[TurtleBot3-url]: https://www.turtlebot.com/
+[Gazebo-badge]: https://img.shields.io/badge/Gazebo%20Ignition-2F5A5B?style=for-the-badge&logo=ignition&logoColor=white
+[Gazebo-url]: https://ignitionrobotics.org/
 [Python-badge]: https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org/
 
-# Participants
+## Participants
 - [Mira Budenova](https://github.com/mirabud)
 - [Alejandro Cedillo Gámez](https://github.com/alexcega)
+- [Micha Fauth](https://github.com/michafauth99)
