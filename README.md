@@ -163,16 +163,21 @@ Use Ubuntu 22.04
    ```bash
    colcon build –symlink-install
    ```
-6. Source the package install.bash file
+6. Source the package by adding the install.bash file to the bash
    ```bash
    # Open bashrc file
    gedit ~/.bashrc
    ```
   
-   Add the following line at the end of the file
+   Add the following  two lines at the end of the file
    ```bash
    source ~/ros2_ws/install/setup.bash
    ```
+   Set parameter of the turtelbot model:
+   ```bash
+   export TURTLEBOT3_MODEL=waffle
+   ```
+   
    Restart your terminal.
 
 
