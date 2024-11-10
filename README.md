@@ -191,14 +191,27 @@ Use Ubuntu 22.04
      ```bash
        ros2 run turtlebot3_teleop teleop_keyboard
      ```
-  3. Move to a point:
+  2. Move to a point:
      
      In RViz you can set navigation goals by clicking on `Nav2 Goal` and select an arbitrary point on the map.
-  5. Waypoint Following:
+  3. Waypoint Following:
   
      In RViz you can click on `Waypoint / Nav Through Poses Mode`. Set multiple `Nav2 Goals` like in ii. and then click on `Start Waypoint Following`
+
+  4. Creating a map with cartographer module:
+
+      Start cartographer
+     ```bash
+     ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True
+     ```
+     Move around with the robot e.g. with `turtlebot3_teleop` until you get a satisfying result. To save the map you can use the following command:
+     ```bash
+     ros2 run nav2_map_server map_saver_cli -f my_map
+     ```
+     
+     
   
-* For default environment (SLAM works here):
+* For default environment:
    ```bash
    ros2 launch turtlebot3 simulation.launch.py
    ```
