@@ -33,7 +33,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#Participants">Contact</a></li>
+    <li><a href="#Participants">Participants</a></li>
   </ol>
 </details>
 
