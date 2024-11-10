@@ -121,7 +121,7 @@ Use Ubuntu 22.04
 
     # Install ROS Ignition Bridge for Gazebo Integration
     sudo apt install ros-humble-ros-ign-gazebo
-    sudo apt install ros-humble-ign-bridge
+    sudo apt install ros-humble-ros-ign-bridge
     ```
 - Install more necessary packages:
   ```bash
