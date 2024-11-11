@@ -1,7 +1,7 @@
 <sdf version='1.8'>
   <!-- Turtlebot3 -->
      <model name="burger">  
-     <pose>0 0 0.2 0 0 0</pose>
+     
      <link name="base_footprint"/>
 
     <link name="base_link">

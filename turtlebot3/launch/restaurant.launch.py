@@ -41,7 +41,7 @@ def generate_launch_description():
                    '-name', TURTLEBOT3_MODEL,
                    '-file', PathJoinSubstitution([
                         get_package_share_directory('turtlebot3'),
-                        "models", "turtlebot3", "waffle.sdf"]),
+                        "models", "turtlebot3", TURTLEBOT3_MODEL+".sdf"]),
                    '-allow_renaming', 'true',
                    '-x', '0.0',
                    '-y', '0.0',

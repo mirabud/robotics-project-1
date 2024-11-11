@@ -15,7 +15,7 @@ def generate_launch_description():
 
     sdf = os.path.join(
         get_package_share_directory('turtlebot3'),
-        'models', 'turtlebot3', 'waffle.sdf')
+        'models', 'turtlebot3', TURTLEBOT3_MODEL+'.sdf')
 
     doc = xacro.parse(open(sdf))
     xacro.process_doc(doc)
