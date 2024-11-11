@@ -173,7 +173,9 @@ Use Ubuntu 22.04
    ```bash
    source ~/ros2_ws/install/setup.bash
    ```
-   Set parameter of the turtelbot model:
+   Set parameter for the robot model you want to use. There are three different models `waffle`, `burger` and `marses`:
+
+   E.g.
    ```bash
    export TURTLEBOT3_MODEL=waffle
    ```
