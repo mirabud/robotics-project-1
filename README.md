@@ -157,7 +157,7 @@ Use Ubuntu 22.04
    rosdep update
    
    # install dependencies
-   rosdep install –from-paths src –ignore-src -r -y
+   rosdep install --from-paths src --ignore-src -r -y
    ```
 5. Build the project
    ```bash
