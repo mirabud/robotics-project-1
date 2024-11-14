@@ -7,7 +7,9 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
-TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']   # waffle
+TURTLEBOT3_MODEL = 'burger'   # waffle
+
+
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
@@ -23,30 +25,48 @@ def generate_launch_description():
         
 
 	# Spawn world with robot included
-    world_with_robot_sdf = os.path.join(
+    world_entity = os.path.join(
         get_package_share_directory('turtlebot3'),
-        "models", "worlds", "world_demo_waffle.sdf"
+        "models", "worlds", "world_only.sdf"
     )
 
     ignition_spawn_world = Node(
         package='ros_ign_gazebo',
         executable='create',
         output='screen',
-        arguments=['-file', world_with_robot_sdf, '-allow_renaming', 'false']
     )
+    ignition_spawn_entity = Node(
+        package='ros_ign_gazebo',
+        executable='create',
+        output='screen',
+        arguments=['-entity', TURTLEBOT3_MODEL,
+                   '-name', TURTLEBOT3_MODEL,
+                   '-file', PathJoinSubstitution([
+                        get_package_share_directory('turtlebot3'),
+                        "models", "turtlebot3", TURTLEBOT3_MODEL+".sdf"]),
+                   '-allow_renaming', 'true',
+                   '-x', '0.0',
+                   '-y', '0.0',
+                   '-z', '10'],
+        )
+    world = os.path.join(get_package_share_directory('turtlebot3'), "models", "worlds", "world_only.sdf")
     
+    
+    # Waiter Bot 
+   
     
   
     return LaunchDescription([
         ign_resource_path,
         ignition_spawn_world,
+        ignition_spawn_entity,
         
         # Include Gazebo and bridge launch files
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [os.path.join(get_package_share_directory('ros_ign_gazebo'),
                               'launch', 'ign_gazebo.launch.py')]),
-            launch_arguments=[('ign_args', [' -r -v 3 ' + world_with_robot_sdf])]),
+            launch_arguments=[('ign_args', [' -r -v 3 ' + world])]),
                              
         DeclareLaunchArgument(
             'use_sim_time',
