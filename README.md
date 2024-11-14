@@ -161,7 +161,7 @@ Use Ubuntu 22.04
    ```
 5. Build the project
    ```bash
-   colcon build –symlink-install
+   colcon build --symlink-install
    ```
 6. Source the package by adding the install.bash file to the bash
    ```bash
