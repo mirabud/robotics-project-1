@@ -137,7 +137,8 @@ nav_msgs::msg::Path StraightLine::createPlan(
   goal_pose.header.stamp = node_->now();
   goal_pose.header.frame_id = global_frame_;
   global_path.poses.push_back(goal_pose);
-
+  
+  RCLCPP_INFO(node_->get_logger(),"Global Path Size: %zu",global_path.poses.size());
   return global_path;
 }
 

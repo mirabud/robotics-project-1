@@ -27,6 +27,7 @@ find_package(tf2_ros REQUIRED)
 find_package(nav2_costmap_2d REQUIRED)
 find_package(nav2_core REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(nav2_common REQUIRED)
 
 install(DIRECTORY launch models maps params
   DESTINATION share/${PROJECT_NAME}
@@ -56,20 +57,33 @@ set(dependencies
 )
 
 
-add_library(${library_name} SHARED
+add_library(${library_name}_straight_line SHARED
   src/straight_line_planner.cpp
 )
 
-ament_target_dependencies(${library_name}
+add_library(${library_name}_pose_controller SHARED
+  src/straight_line_planner.cpp
+)
+
+
+ament_target_dependencies(${library_name}_straight_line
+  pluginlib
+  nav2_util
+  ${dependencies}
+)
+ament_target_dependencies(${library_name}_pose_controller
   pluginlib
   nav2_util
   ${dependencies}
 )
 
 
-target_compile_definitions(${library_name} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+
+target_compile_definitions(${library_name}_straight_line PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+target_compile_definitions(${library_name}_pose_controller PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
 pluginlib_export_plugin_description_file(nav2_core global_planner_plugin.xml)
+pluginlib_export_plugin_description_file(nav2_core pose_controller_plugin.xml)
 
 install(DIRECTORY include/
   DESTINATION include/
