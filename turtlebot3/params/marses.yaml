@@ -139,7 +139,7 @@ controller_server:
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
-      plugin: "nav2_pose_controller::PoseController"
+      #plugin: "nav2_pose_controller::PoseController"
       #debug_trajectory_details: True
       #kp_position: 0.2
       #kp_orientation: 0.1
