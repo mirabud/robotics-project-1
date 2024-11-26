@@ -279,6 +279,8 @@ planner_server:
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
+      #plugin: "nav2_straightline_planner::StraightLine"
+      #interpolation_resolution: 0.1
       tolerance: 0.5
       use_astar: false
       allow_unknown: true
