@@ -1,6 +1,6 @@
 <!-- PROJECT LOGO -->
 <div align="left">
-    <img src="docs/media/banner.png" alt="Banner" >
+    <img src="docs/media/Banner.png" alt="Banner" >
 </div>
  
  # robotics-project-1
