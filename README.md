@@ -42,7 +42,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-In this project,....
+Final project for the Mobile Robots course at UIB as part of the Master's program in Intelligent Systems. The project focuses on the simulation, control, and modeling of a robotic system designed to navigate and interact in a simulated restaurant environment.
 
 
 
@@ -243,3 +243,5 @@ Use Ubuntu 22.04
 - [Mira Budenova](https://github.com/mirabud)
 - [Alejandro Cedillo Gámez](https://github.com/alexcega)
 - [Micha Fauth](https://github.com/michafauth99)
+- [Lili Even](https://github.com/Lili00E)
+- [Juan Juancho](https://github.com/Juan-c3po)
