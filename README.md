@@ -219,12 +219,16 @@ Use Ubuntu 22.04
      ```
      
      
+   ### Change Controller Type
+  The DWB_Controller from the nav2 package is set per default as our path controller. If you want to change to a pose controller, the parameter file from the current selected robot needs to be adjusted. As per default nav2 works with a global planner, so we have to change the global planner in the `Planner Server` section and the controller in the `Controller Server` under `FollowPath` section:
+
   
-* For default environment:
-   ```bash
-   ros2 launch turtlebot3 simulation.launch.py
-   ```
-  
+  <table>
+    <tr>
+        <td><img src="docs/media/Custom_Global_Planner.png" alt="Banner"></td>
+        <td><img src="docs/media/Custom_Pose_Controller.png" alt="Another Image"></td>
+    </tr>
+</table>
 
 
 
