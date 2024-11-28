@@ -45,8 +45,8 @@ def generate_launch_description():
                         get_package_share_directory('turtlebot3'),
                         "models", "turtlebot3", TURTLEBOT3_MODEL+".sdf"]),
                    '-allow_renaming', 'true',
-                   '-x', '0.0',
-                   '-y', '0.0',
+                   '-x', '-3.0',
+                   '-y', '-3.0',
                    '-z', '10'],
         )
     world = os.path.join(get_package_share_directory('turtlebot3'), "models", "worlds", "world_restaurant.sdf")

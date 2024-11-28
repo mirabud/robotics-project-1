@@ -9,9 +9,10 @@
 #include <algorithm>
 #include <string>
 #include <memory>
+#include "angles/angles.h"
 
-#include "nav2_core/controller_exceptions.hpp"
-#include "nav2_core/planner_exceptions.hpp"
+
+#include "nav2_core/exceptions.hpp"
 #include "nav2_util/node_utils.hpp"
 #include "turtlebot3/pose_controller.hpp"
 #include "nav2_util/geometry_utils.hpp"
@@ -131,37 +132,59 @@ geometry_msgs::msg::TwistStamped PoseController::computeVelocityCommands(
   (void)goal_checker;
   
   if (global_plan_.poses.empty()){
-    throw nav2_core::PlannerException("No valid global plan!")
+    throw nav2_core::PlannerException("No valid global plan!");
   }
 
   auto transformed_plan = transformGlobalPlan(pose);
-  
+  RCLCPP_INFO(logger_, "Transformed plan size: %zu", transformed_plan.poses.size());
 
   // Target next waypoint in the transformed plan
-  const auto &target_pose = transformed_plan.poses.front();
-
+  const auto &target_pose = global_plan_.poses.front();
+  
+ 
   
   // compute positional error
-  double dx = target_pose.pose.position.x;
-  double dy = target_pose.pose.position.y;
-  double distance_error = hypot(dx, dy);
-  
-  // compute orientation error
-  double target_yaw = atan2(dy, dx);
-  double current_yaw = tf2::getYaw(pose.pose.orientation);
-  double orientation_error = angles::shortest_angular_distance(current_yaw, target_yaw;
+  // Calculate the distance to the goal
+  double dx = target_pose.pose.position.x - pose.pose.position.x;  // x_goal - x_robot
+  double dy = target_pose.pose.position.y - pose.pose.position.y;  // y_goal - y_robot
+
+  double dist_to_goal = hypot(dx, dy);  // sqrt(dx^2 + dy^2)
+
+  // Calculate the angle to the goal (target direction)
+  double angle_to_goal = atan2(dy, dx);
+
+  // Get the current orientation (yaw) of the robot
+  double ori_robot = tf2::getYaw(pose.pose.orientation);
+  // Function to normalize an angle to the range [-pi, pi]
  
-  // Apply proportional control
-  double linear_vel = std::min(kp_position_* distance_error,  max_linear_vel_);
-  double angular_vel = std::min(kp_orientation_*orientation_error, max_angular_vel_);
+
+  // Calculate the orientation error (angle difference between the robot's current orientation and the goal direction)
+  double angle= angle_to_goal - ori_robot;
+  double orientation_error = atan2(sin(angle),cos(angle));
 
   // Create and publish a TwistStamped message with the desired velocity
   geometry_msgs::msg::TwistStamped cmd_vel;
-  cmd_vel.header.frame_id = pose.header.frame_id;
-  cmd_vel.header.stamp = clock_->now();
-  cmd_vel.twist.linear.x = linear_vel;
-  cmd_vel.twist.angular.z = angular_vel;
 
+
+// Proportional control for orientation
+  double angular_vel = kp_orientation_ * orientation_error;  // Scale angular velocity based on error
+  angular_vel = std::clamp(angular_vel, -max_angular_vel_, max_angular_vel_);  // Clamp angular velocity
+
+  // If orientation error is large, prioritize rotation over linear motion
+  if (fabs(orientation_error) > 0.3) {
+    cmd_vel.twist.linear.x = 0.0;  // Stop forward motion
+    cmd_vel.twist.angular.z = angular_vel;  // Rotate proportionally
+  } else {
+    // Proportional control for linear velocity
+    double linear_vel = kp_position_ * dist_to_goal;
+    linear_vel = std::max(linear_vel, 0.1);  // Ensure a minimum velocity
+    linear_vel = std::clamp(linear_vel, 0.0, max_linear_vel_); 
+
+    cmd_vel.twist.linear.x = linear_vel;  // Move forward
+    cmd_vel.twist.angular.z = angular_vel;  // Small corrections for orientation
+  }
+   RCLCPP_INFO(logger_, "Linear velocity: %f, Angular velocity: %f", cmd_vel.twist.linear.x, cmd_vel.twist.angular.z);
+  
   return cmd_vel;
 }
 
@@ -180,6 +203,12 @@ PoseController::transformGlobalPlan(
   if (global_plan_.poses.empty()) {
     throw nav2_core::PlannerException("Received plan with zero length");
   }
+
+
+
+
+
+
 
   // let's get the pose of the robot in the frame of the plan
   geometry_msgs::msg::PoseStamped robot_pose;

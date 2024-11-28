@@ -96,7 +96,7 @@ private:
   // The global frame of the costmap
   std::string global_frame_, name_;
 
-  double interpolation_resolution_;
+  double distance_to_waypoint_;
 };
 
 }  // namespace nav2_straightline_planner

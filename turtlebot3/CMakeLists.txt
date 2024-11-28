@@ -5,13 +5,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
-find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
-
-
+# Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
@@ -29,6 +23,7 @@ find_package(nav2_core REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(nav2_common REQUIRED)
 
+# Install additional files
 install(DIRECTORY launch models maps params
   DESTINATION share/${PROJECT_NAME}
 )
@@ -37,8 +32,10 @@ include_directories(
   include
 )
 
+# Set library name
 set(library_name ${PROJECT_NAME}_plugin)
 
+# Dependencies list
 set(dependencies
   rclcpp
   rclcpp_action
@@ -56,53 +53,65 @@ set(dependencies
   pluginlib
 )
 
-
+# Add the shared library for the Straight Line Planner
 add_library(${library_name}_straight_line SHARED
   src/straight_line_planner.cpp
 )
-
+# Add the shared library for the Pose Controller Plugin
 add_library(${library_name}_pose_controller SHARED
-  src/straight_line_planner.cpp
+  src/pose_controller.cpp
 )
 
-
+# Link dependencies to the library
 ament_target_dependencies(${library_name}_straight_line
   pluginlib
   nav2_util
   ${dependencies}
 )
+
 ament_target_dependencies(${library_name}_pose_controller
   pluginlib
   nav2_util
   ${dependencies}
 )
 
-
-
+# Define compile definitions
 target_compile_definitions(${library_name}_straight_line PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 target_compile_definitions(${library_name}_pose_controller PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
+# Export the plugin description
 pluginlib_export_plugin_description_file(nav2_core global_planner_plugin.xml)
 pluginlib_export_plugin_description_file(nav2_core pose_controller_plugin.xml)
 
-install(DIRECTORY include/
+
+# Install headers, library, and plugin description
+install(
+  DIRECTORY include/
   DESTINATION include/
 )
 
-install(FILES global_planner_plugin.xml
+install(
+  TARGETS 
+    ${library_name}_straight_line
+    ${library_name}_pose_controller
+  LIBRARY DESTINATION lib
+)
+
+install(
+  FILES 
+    global_planner_plugin.xml
+    pose_controller_plugin.xml
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Optional: Testing setup
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Finalize the package
 ament_package()
+
