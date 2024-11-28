@@ -50,8 +50,10 @@ Final project for the Mobile Robots course at UIB as part of the Master's progra
 ### Built With
 * [![Python 3][Python-badge]][Python-url]
 * [![ROS 2][ROS2-badge]][ROS2-url]
+* [![Navigation 2][Nav2-badge]][Nav2-url]
 * [![TurtleBot3][TurtleBot3-badge]][TurtleBot3-url]
 * [![Gazebo Ignition][Gazebo-badge]][Gazebo-url]
+
 
 
 
@@ -234,6 +236,8 @@ Use Ubuntu 22.04
 [ROS2-url]: https://index.ros.org/doc/ros2/
 [TurtleBot3-badge]: https://img.shields.io/badge/TurtleBot3-009CDE?style=for-the-badge&logo=turtlebot3&logoColor=white
 [TurtleBot3-url]: https://www.turtlebot.com/
+[Nav2-badge]: https://img.shields.io/badge/Nav2-0088CE?style=for-the-badge&logo=ros&logoColor=white
+[Nav2-url]: https://navigation.ros.org/
 [Gazebo-badge]: https://img.shields.io/badge/Gazebo%20Ignition-2F5A5B?style=for-the-badge&logo=ignition&logoColor=white
 [Gazebo-url]: https://ignitionrobotics.org/
 [Python-badge]: https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white
