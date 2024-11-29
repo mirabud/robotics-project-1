@@ -195,7 +195,7 @@ Use Ubuntu 22.04
 <table>
     <tr>
          <td>world_restaurantV2</td>
-         <td>world_estaurant</td>
+         <td>world_restaurant</td>
          <td>world_only</td>
     </tr>
     <tr>
