@@ -8,6 +8,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
 TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']   # waffle
+WORLD = os.environ['WORLD']
 
 
 
@@ -24,11 +25,6 @@ def generate_launch_description():
         os.path.join(get_package_share_directory('turtlebot3'), "models")])
         
 
-	# Spawn world with robot included
-    world_entity = os.path.join(
-        get_package_share_directory('turtlebot3'),
-        "models", "worlds", "world_restaurant.sdf"
-    )
 
     ignition_spawn_world = Node(
         package='ros_ign_gazebo',
@@ -49,7 +45,7 @@ def generate_launch_description():
                    '-y', '-3.0',
                    '-z', '10'],
         )
-    world = os.path.join(get_package_share_directory('turtlebot3'), "models", "worlds", "world_restaurant.sdf")
+    world = os.path.join(get_package_share_directory('turtlebot3'), "models", "worlds", WORLD+".sdf")
     
     
     # Waiter Bot 
