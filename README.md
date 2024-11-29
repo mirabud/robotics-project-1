@@ -32,6 +32,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#environments">Our environments</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#Participants">Participants</a></li>
   </ol>
@@ -181,7 +182,7 @@ Use Ubuntu 22.04
    ```bash
    export TURTLEBOT3_MODEL=waffle
    ```
-   Set parameter for which world you want to use. The `world_restaurantV2` is the newest but also with high computational cost. For better performance use `world_restaurant`:
+   Set parameter for which world you want to use. The `world_restaurantV2` is the newest but also with high computational cost. For better performance use `world_restaurant` or `wordl_only`:
 
    E.g.
    ```bash
@@ -190,8 +191,19 @@ Use Ubuntu 22.04
 
    
    Restart your terminal.
-
-
+## Environments
+<table>
+    <tr>
+         <td>world_restaurantV2</td>
+         <td>world_estaurant</td>
+         <td>world_only</td>
+    </tr>
+    <tr>
+        <td><img src="docs/media/Screenshot from 2024-11-29 02-35-15.png" alt="Banner"></td>
+        <td><img src="docs/media/world_restaurant.png" alt="Another Image"></td>
+        <td><img src="docs/media/world_only.png" alt="Another Image"></td>
+    </tr>
+</table>
 
 
 <!-- USAGE EXAMPLES -->
