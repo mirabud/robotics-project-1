@@ -181,6 +181,13 @@ Use Ubuntu 22.04
    ```bash
    export TURTLEBOT3_MODEL=waffle
    ```
+   Set parameter for which world you want to use. The `world_restaurantV2` is the newest but also with high computational cost. For better performance use `world_restaurant`:
+
+   E.g.
+   ```bash
+   export WORLD=world_restaurantV2
+   ```
+
    
    Restart your terminal.
 
